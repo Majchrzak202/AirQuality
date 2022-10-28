@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Tree from "./../assets/Tree.png";
 import { makeStyles } from "@mui/styles";
-
+import { Link as SmoothLink } from "react-scroll";
 import { styled } from "@mui/material/styles";
 
 const useStyles = makeStyles({
@@ -65,16 +65,14 @@ const Search = ({ searchHandler }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     if (input.length === 0) {
       return;
     }
-
     searchHandler(input);
   };
 
   return (
-    <Box className={classes.root}>
+    <Box id="search" className={classes.root}>
       <Box className={classes.container}>
         <img
           style={{ width: "20%", height: "20%", marginBottom: -10 }}
@@ -114,14 +112,23 @@ const Search = ({ searchHandler }) => {
             value={input}
             onChange={searchInputHandler}
           />
-          <Button
-            onClick={submitHandler}
-            color="warning"
-            sx={{ width: "13%" }}
-            variant="contained"
+          <SmoothLink
+            to="airQuality"
+            spy={true}
+            smooth={true}
+            offset={0}
+            duration={1000}
+            style={{ width: "13%", padding: 10 }}
           >
-            Search!
-          </Button>
+            <Button
+              onClick={submitHandler}
+              color="warning"
+              sx={{ width: "73%" }}
+              variant="contained"
+            >
+              Search!
+            </Button>
+          </SmoothLink>
         </form>
       </Box>
     </Box>
