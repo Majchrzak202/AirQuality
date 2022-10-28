@@ -7,7 +7,7 @@ import ModerateFace from "./../assets/ModerateFace.png";
 import UnhappyFace from "./../assets/UnhappyFace.png";
 import { makeStyles } from "@mui/styles";
 import Recomendations from "./Recomendations";
-import { Divider } from "@mui/material";
+import { Link as SmoothLink } from "react-scroll";
 
 const useStyles = makeStyles({
   root: {
@@ -71,9 +71,22 @@ const useStyles = makeStyles({
     height: 120,
     paddingBottom: 50,
   },
+  noAirQualityDiv: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "5vh",
+  },
+  noAirQualityTypo: {
+    cursor: "pointer",
+    paddingTop: 30,
+    "&:hover": {
+      color: "#0f5157",
+    },
+  },
 });
 
-const AirQuality = ({ airQuality, weather }) => {
+const AirQuality = ({ airQuality, weather, error }) => {
   const [backgroundColor, setBackgroundColor] = useState("");
   const [faceImage, setFaceImage] = useState("");
 
@@ -111,7 +124,32 @@ const AirQuality = ({ airQuality, weather }) => {
   }, [airQuality]);
 
   if (airQuality === "undefined") {
-    return;
+    return (
+      <div className={classes.noAirQualityDiv} id="airQuality">
+        <SmoothLink
+          to="search"
+          spy={true}
+          smooth={true}
+          offset={0}
+          duration={700}
+        >
+          <Typography
+            style={{ fontSize: 30, fontWeight: 800 }}
+            className={classes.noAirQualityTypo}
+          >
+            Check the Air Quality in You're City!
+          </Typography>
+          {error && (
+            <Typography
+              style={{ fontSize: 30, fontWeight: 800, color: "red" }}
+              className={classes.noAirQualityTypo}
+            >
+              No such Station. Please try again!
+            </Typography>
+          )}
+        </SmoothLink>
+      </div>
+    );
   }
 
   const time = airQuality.data.time.s;
@@ -133,7 +171,7 @@ const AirQuality = ({ airQuality, weather }) => {
   console.log(weather);
 
   return (
-    <Box className={classes.root}>
+    <Box id="airQuality" className={classes.root}>
       <Card sx={{ boxShadow: 15 }} className={classes.card}>
         <Box className={classes.containerBox}>
           <Box
